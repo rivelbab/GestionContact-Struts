@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_3.dtd">
+<struts-config>
+
+	<form-beans>
+		<form-bean name="AddContactValidationForm"
+			type="org.lip6.struts.actionForm.AddContactValidationForm" />
+		<form-bean name="UpdateContactValidationForm"
+			type="org.lip6.struts.actionForm.UpdateContactValidationForm" />
+		<form-bean name="SearchValidationForm"
+			type="org.lip6.struts.actionForm.SearchValidationForm" />
+		<form-bean name="LoginValidationForm"
+			type="org.lip6.struts.actionForm.LoginValidationForm" />
+	</form-beans>
+
+	<action-mappings>
+
+		<!-- ======= Login ========= -->
+		<action path="/Login" forward="/pages/login.jsp" />
+
+		<action path="/LoginAction"
+			type="org.lip6.struts.servletAction.LoginAction"
+			name="LoginValidationForm" scope="request" input="/pages/login.jsp">
+			<forward name="success" path="/pages/main.jsp" />
+			<forward name="error" path="/pages/error.jsp" />
+		</action>
+		<!-- ======= accueil ========= -->
+		<action path="/Main" forward="/pages/main.jsp" />
+
+		<!-- ======== creation ======== -->
+		<action path="/ContactCreation"
+			forward="/pages/contactCreation.jsp" />
+
+		<action path="/AddContact"
+			type="org.lip6.struts.servletAction.AddContactAction"
+			name="AddContactValidationForm" scope="request"
+			input="/pages/contactCreation.jsp">
+			<forward name="success" path="/ContactDisplay.do"
+				redirect="true" />
+			<forward name="error" path="/pages/error.jsp" />
+			<exception key="error"
+				path="/pages/error.jsp" type="javax.servlet.ServletException" />
+		</action>
+
+		<!-- ======== affichage ======== -->
+		<action path="/ContactDisplay"
+			type="org.lip6.struts.servletAction.DisplayContactAction">
+
+			<forward name="success" path="/pages/contactDisplay.jsp" />
+			<forward name="error" path="/pages/error.jsp" />
+		</action>
+
+		<!-- ======== affichage d'un seul contact ======== -->
+
+		<action path="/DisplayOneContact"
+			type="org.lip6.struts.servletAction.DisplayOneContactAction">
+
+			<forward name="success" path="/pages/contactDisplayOne.jsp" />
+			<forward name="error" path="/pages/error.jsp" />
+		</action>
+
+		<!-- ======== suppression ======== -->
+		<action path="/ContactDelete"
+			type="org.lip6.struts.servletAction.DeleteContactAction"
+			parameter="action">
+
+			<forward name="success" path="/pages/contactDisplay.jsp" />
+			<forward name="error" path="/pages/error.jsp" />
+		</action>
+
+		<!-- ======== update ======== -->
+		<action path="/ContactUpdate"
+			forward="/pages/contactUpdate.jsp" />
+
+		<action path="/UpdateContact"
+			type="org.lip6.struts.servletAction.UpdateContactAction"
+			name="UpdateContactValidationForm" scope="request"
+			input="/pages/contactUpdate.jsp">
+
+			<forward name="success" path="/ContactDisplay.do"
+				redirect="true" />
+			<forward name="error" path="/pages/error.jsp" />
+		</action>
+
+		<!-- ========== Recherche =========== -->
+
+		<action path="/SearchAll"
+			type="org.lip6.struts.servletAction.SearchContactAction"
+			name="SearchValidationForm" scope="request" input="/pages/main.jsp"
+			parameter="action">
+
+			<forward name="success" path="/pages/searchResult.jsp" />
+			<forward name="error" path="/pages/error.jsp" />
+		</action>
+
+	</action-mappings>
+	<!-- ========== message file ========= -->
+	<message-resources parameter="Resources" />
+
+</struts-config>
